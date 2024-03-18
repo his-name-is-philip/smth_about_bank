@@ -154,6 +154,7 @@ class HomelessPage extends StatelessWidget {
                               height: fabSize,
                               child: FloatingActionButton(
                                 shape: const CircleBorder(),
+                                elevation: 0,
                                 onPressed: () => _gi.get<BankCubit>().genCard(),
                                 child: Icon(
                                   Icons.restart_alt_rounded,
