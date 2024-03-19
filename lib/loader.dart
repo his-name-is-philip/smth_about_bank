@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:smth_about_bank/bank_cubit.dart';
+import 'package:smth_about_bank/card.dart';
 
 //https://randommer.io/api/swagger-docs/index.html
 enum NameType {
@@ -36,7 +36,7 @@ final class UnknownException extends HttpException {} // != 200
 abstract interface class IRandomService {
   Future<List<String>> loadCardTypes();
 
-  Future<Card> loadCard(int typeIndex, String type);
+  Future<Card> loadCard(String type);
 }
 
 final class RandomService implements IRandomService {
@@ -66,7 +66,7 @@ final class RandomService implements IRandomService {
   }
 
   @override
-  Future<Card> loadCard(int typeIndex, String type) async {
+  Future<Card> loadCard(String type) async {
     var cardMap = await _loadRandom('Card', {
       'type': type,
     }) as Map<String, dynamic>;
@@ -74,12 +74,12 @@ final class RandomService implements IRandomService {
     String month = date.month.toString().padLeft(2, '0');
     String year = date.year.toString().substring(2);
     return Card(
-        number: _formatCardNumber(cardMap),
-        name: cardMap['fullName'].toString().toUpperCase(),
-        cvv: cardMap['cvv'],
-        pin: cardMap['pin'].toString(),
-        date: '$month/$year',
-        type: typeIndex);
+      number: _formatCardNumber(cardMap),
+      name: cardMap['fullName'].toString().toUpperCase(),
+      cvv: cardMap['cvv'],
+      pin: cardMap['pin'].toString(),
+      date: '$month/$year',
+    );
   }
 
   String _formatCardNumber(Map<String, dynamic> cardMap) {
