@@ -1,9 +1,9 @@
 import 'package:async/async.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smth_about_bank/card.dart';
 import 'dart:math';
 
 import 'package:smth_about_bank/loader.dart';
-import 'package:equatable/equatable.dart';
 
 class BankCubit extends Cubit<UIState> {
   BankCubit()
@@ -48,7 +48,7 @@ class BankCubit extends Cubit<UIState> {
     _refresh();
     try {
       int n = state.selected!;
-      state.card = await _service.loadCard(n, state.cardTypes[n]);
+      // state.card = await _service.loadCard(n, state.cardTypes[n]);
       state.isCardLoading = false;
       _refresh();
     } catch (e) {
@@ -89,42 +89,4 @@ class UIState {
 enum Unloaded {
   list,
   card;
-}
-
-class Card extends Equatable {
-  const Card(
-      {required this.number,
-      required this.name,
-      required this.cvv,
-      required this.pin,
-      required this.date,
-      required this.type});
-
-  factory Card.empty() => const Card(
-        number: '#### #### #### ####',
-        name: '###### ########',
-        cvv: '###',
-        pin: '####',
-        date: '##/##',
-        type: -1,
-      );
-
-  factory Card.error() => const Card(
-        number: 'CARD LOADING ERROR',
-        name: '###### ########',
-        cvv: '###',
-        pin: '####',
-        date: '##/##',
-        type: -1,
-      );
-
-  final String number;
-  final String name;
-  final String cvv;
-  final String pin;
-  final String date;
-  final int type;
-
-  @override
-  List<Object?> get props => <Object?>[number, name, cvv, pin, date, type];
 }

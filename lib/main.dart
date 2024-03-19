@@ -8,10 +8,16 @@ import 'package:smth_about_bank/bank_cubit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:smth_about_bank/better_solution/app.dart';
+import 'package:smth_about_bank/card.dart';
+import 'package:smth_about_bank/injection.dart';
 
 void main() {
-  runApp(const MyApp());
+  initializeInjection();
+  runApp(const App());
 }
+
+// <––––––––––––––––––––––––– LEGACY –––––––––––––––––––––––––>
 
 //прочитал, что люди ее используют,
 //только чем оно лучше глобальных переменных, я не понял
@@ -79,7 +85,7 @@ class HomelessPage extends StatelessWidget {
         builder: (BuildContext ctx, state) {
           String bankPath;
           if (state.card != null) {
-            bankPath = 'images/${state.cardTypes[state.card!.type]}.svg';
+            // bankPath = 'images/${state.cardTypes[state.card!.type]}.svg';
           } else {
             if (state.selected != null) {
               bankPath = 'images/${state.cardTypes[state.selected!]}.svg';
@@ -118,9 +124,9 @@ class HomelessPage extends StatelessWidget {
             case (false, false):
               Card card;
               if (state.unloaded == Unloaded.card) {
-                card = Card.error();
+                // card = Card.error();
               } else {
-                card = state.card ?? Card.empty();
+                // card = state.card ?? Card.empty();
               }
               const fabSize = 60.0;
               return Column(
@@ -143,7 +149,7 @@ class HomelessPage extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: fabSize / 2),
-                          child: _card(card, _cardSize(ctx), bankPath),
+                          // child: _card(card, _cardSize(ctx), bankPath),
                         ),
                         if (state.unloaded == Unloaded.card)
                           Positioned(
